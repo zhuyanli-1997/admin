@@ -5,10 +5,18 @@
     </el-row>
     <el-table ref="singleTable" :data="tableData" style="width: 100%">
       <el-table-column type="index" label="序号" width="50"> </el-table-column>
-      <el-table-column property="name" label="姓名" width="120">
+      <el-table-column property="imgUrl" label="电影海报" width="120">
       </el-table-column>
-      <el-table-column property="index" label="索引"> </el-table-column>
-
+      <el-table-column property="title" label="电影名字" width="120">
+      </el-table-column>
+      <el-table-column property="stars" label="电影演员" width="120">
+      </el-table-column>
+      <el-table-column property="region" label="电影地区" width="120">
+      </el-table-column>
+      <el-table-column property="ratings" label="电影评分" width="120">
+      </el-table-column>
+      <el-table-column property="description" label="电影描述" width="120">
+      </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <!-- scope 当前列-->
@@ -49,34 +57,28 @@ export default {
     };
   },
   created() {
-    this.getCitys();
+    this.getMovies();
   },
   methods: {
     // 获取全部城市数据
-    /* getCitys() {
-      axios.get("/citys").then(res => {
+    getMovies() {
+      axios.get("/movie").then(res => {
         console.log(res);
         if (res.data.code === 20000) {
           this.tableData = res.data.list;
         }
       });
-    }, */
+    },
     // 分页
-    getCitys() {
+    /* getMovies() {
       axios
-        .get(`/citys?page=${this.currentPage}&pageSize=${this.pageSize}`)
+        .get(`/movie?page=${this.currentPage}&pageSize=${this.pageSize}`)
         .then(res => {
           this.tableData = res.data.list;
           this.total = res.data.total;
         });
-    },
-    //编辑
-    handleEdit(id) {
-      // alert(id);
-      this.$router.push({
-        path: "/city/edit/" + id
-      });
-    },
+    }, */
+
     // 删除
     handleDelete(id) {
       this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
@@ -85,18 +87,14 @@ export default {
         type: "warning"
       })
         .then(() => {
-          axios.delete("/delcity/" + id).then(res => {
+          axios.delete("/delmovie/" + id).then(res => {
             if (res.data.code === 20000) {
               this.$message({
                 type: "success",
                 message: res.data.msg
               });
             }
-            /*  this.$message({
-              type: "success",
-              message: res.data.msg
-            }); */
-            this.getCitys();
+            this.getMovies();
           });
         })
         .catch(() => {
@@ -106,10 +104,17 @@ export default {
           });
         });
     },
+    //编辑
+    handleEdit(id) {
+      // alert(id);
+      this.$router.push({
+        path: "/movie/edit/" + id
+      });
+    },
     // 添加
     add() {
       this.$router.push({
-        path: "/city/create"
+        path: "/movie/create"
       });
     },
     changePage(page) {

@@ -226,6 +226,43 @@ export const asyncRoutes = [
       }
     ]
   },
+  // 电影模块
+
+  {
+    path: "/movie",
+    component: Layout,
+    redirect: "/movie/list",
+    name: "movie",
+    meta: {
+      title: "电影模块",
+      icon: "el-icon-s-help"
+    },
+    children: [
+      {
+        path: "create",
+        component: () => import("@/views/movie/create"),
+        name: "Createmovie",
+        meta: { title: "添加电影", icon: "edit" }
+      },
+      {
+        path: "edit/:id",
+        component: () => import("@/views/movie/edit"),
+        name: "Editmovie",
+        meta: {
+          title: "修改电影",
+          noCache: true,
+          activeMenu: "/movie/list"
+        },
+        hidden: true
+      },
+      {
+        path: "list",
+        component: () => import("@/views/movie/list"),
+        name: "movieList",
+        meta: { title: "电影列表", icon: "list" }
+      }
+    ]
+  },
 
   // 商品模块
   {
@@ -245,7 +282,7 @@ export const asyncRoutes = [
         meta: { title: "添加", icon: "edit" }
       },
       {
-        path: "edit/:id(\\d+)",
+        path: "edit/:id",
         component: () => import("@/views/example/edit"),
         name: "EditArticle",
         meta: {
